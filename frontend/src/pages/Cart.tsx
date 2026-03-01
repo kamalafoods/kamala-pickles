@@ -9,11 +9,17 @@ import { Menu, X, ShoppingCart } from "lucide-react";
 const Cart: React.FC = () => {
 
 const context = useContext(CartContext);
-  const cartCount = context
-    ? context.cartItems.reduce((total, item) => total + item.quantity, 0)
-    : 0;
 
-  const { cartItems, increaseQty, decreaseQty, getGrandTotal } = context;
+  if (!context) {
+  return null; // or loading state
+}
+
+const { cartItems, increaseQty, decreaseQty, getGrandTotal } = context;
+
+const cartCount = cartItems.reduce(
+  (total, item) => total + item.quantity,
+  0
+);
 
   const adminNumber = "917251073544";
 
@@ -65,7 +71,7 @@ const context = useContext(CartContext);
                 size="lg"
                 className="rounded-full px-10 py-4"
             >
-                Collect Pickles
+                Add more
             </Button>
             </Link>
         </div>
@@ -84,15 +90,21 @@ const context = useContext(CartContext);
               />
               <div>
                 <h3 className="text-xl font-semibold">{item.name}</h3>
+                <p className="text-sm text-gray-500">
+                  Weight: {item.weight}
+                </p>
+
                 <p>₹{item.price}</p>
-                <p>Subtotal: ₹{item.price * item.quantity}</p>
+                <p className="font-medium">
+                  Subtotal: ₹{item.price * item.quantity}
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <Button onClick={() => decreaseQty(item.id)}>-</Button>
+              <Button onClick={() => decreaseQty(item.id, item.weight)}>-</Button>
               <span>{item.quantity}</span>
-              <Button onClick={() => increaseQty(item.id)}>+</Button>
+              <Button onClick={() => increaseQty(item.id, item.weight)}>+</Button>
             </div>
           </div>
         ))}
@@ -102,23 +114,25 @@ const context = useContext(CartContext);
             <div className="text-right text-2xl font-bold mt-8">
               Grand Total: ₹{getGrandTotal()}
             </div>
-
-            <Link to="/products">
+          <div className="flex justify-between">
+             <Link to="/products">
                 <Button
                     variant="gold"
                     size="lg"
                     className="rounded-full px-8 py-3"
                 >
-                    Collect pickles
+                    Back
                 </Button>
             </Link>
 
             <Button
               onClick={handleWhatsAppOrder}
-              className="text-1xl fixed bottom-6 right-6 bg-green-600 hover:bg-green-700 w-auto h-14"
+              className="text-1xl bottom-6 right-6 bg-green-600 hover:bg-green-700 w-auto h-12 mt-2"
             >
-              Place The Order
+              Place Order
             </Button>
+          </div>
+           
           </>
         )}
       </div>

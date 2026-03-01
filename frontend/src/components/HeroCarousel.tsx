@@ -74,9 +74,9 @@ const HeroCarousel = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="max-w-xl"
             >
-              <span className="inline-block text-gold font-serif text-lg italic mb-3 tracking-wider">
+              {/* <span className="inline-block text-gold font-serif text-lg italic mb-3 tracking-wider mt-2">
                 Premium Collection
-              </span>
+              </span> */}
               <h1 className="font-heading text-5xl md:text-7xl font-bold text-cream mb-4 leading-tight">
                 {slides[current].name}
               </h1>

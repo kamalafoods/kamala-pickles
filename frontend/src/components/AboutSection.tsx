@@ -6,7 +6,7 @@ const AboutSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-24 bg-cream-gradient" ref={ref}>
+    <section className="py-8 bg-cream-gradient" ref={ref}>
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
@@ -14,7 +14,7 @@ const AboutSection = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
           >
-            <span className="text-accent font-serif text-lg italic tracking-wider">Our Story</span>
+            <span className="text-accent font-serif text-2xl italic tracking-wider">Our Story</span>
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mt-3 mb-6">
               A Legacy of <span className="text-gold-gradient">Flavor</span>
             </h2>

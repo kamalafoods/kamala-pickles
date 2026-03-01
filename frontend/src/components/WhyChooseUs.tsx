@@ -14,10 +14,10 @@ const WhyChooseUs = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-24 bg-background heritage-pattern" ref={ref}>
+    <section className="py-4 bg-background heritage-pattern" ref={ref}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <span className="text-accent font-serif text-lg italic tracking-wider">Our Promise</span>
+          <span className="text-accent font-serif italic tracking-wider text-2xl">Our Promise</span>
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mt-3 mb-4">
             Why Choose <span className="text-gold-gradient">Royal Pickle</span>
           </h2>

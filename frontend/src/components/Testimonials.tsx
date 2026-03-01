@@ -29,10 +29,10 @@ const Testimonials = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-24 bg-background heritage-pattern" ref={ref}>
+    <section className="py-4 bg-background heritage-pattern" ref={ref}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <span className="text-accent font-serif text-lg italic tracking-wider">Love from Our Customers</span>
+          <span className="text-accent font-serif text-2xl italic tracking-wider">Love from Our Customers</span>
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mt-3 mb-4">
             What People <span className="text-gold-gradient">Say</span>
           </h2>

@@ -16,8 +16,8 @@ const CTASection = () => {
         transition={{ duration: 0.7 }}
         className="container mx-auto px-4 text-center relative z-10"
       >
-        <span className="text-gold font-serif text-lg italic tracking-wider">Ready to Experience Tradition?</span>
-        <h2 className="font-heading text-4xl md:text-6xl font-bold text-cream mt-4 mb-6">
+        <span className="text-gold font-serif text-2xl italic tracking-wider">Ready to Experience Tradition?</span>
+        <h2 className="font-heading text-4xl md:text-6xl font-bold text-gold-gradient mt-4 mb-6">
           Taste <span className="text-gold-gradient">Tradition</span> Today
         </h2>
         <p className="text-cream/70 font-body text-lg max-w-lg mx-auto mb-10">
@@ -27,11 +27,6 @@ const CTASection = () => {
           <Link to="/products">
             <Button variant="gold" size="xl" className="rounded-full">
               Shop Collection
-            </Button>
-          </Link>
-          <Link to="/products">
-            <Button variant="gold-outline" size="xl" className="rounded-full border-cream/30 text-cream hover:bg-cream/10 hover:text-cream">
-              Learn More
             </Button>
           </Link>
         </div>

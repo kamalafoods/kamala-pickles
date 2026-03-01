@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { CartContext } from "@/context/CartContext";
@@ -9,32 +9,86 @@ import heroGongura from "@/assets/hero-gongura-pickle.jpg";
 import heroGarlic from "@/assets/hero-garlic-pickle.jpg";
 import productLemon from "@/assets/product-lemon.jpg";
 
-/* ---------------- Product Type ---------------- */
+/* ---------------- Types ---------------- */
+
+interface Variant {
+  weight: string;
+  price: number;
+}
 
 interface FeaturedProduct {
   id: string;
   name: string;
-  price: number; 
   image: string;
   tag: string;
+  variants: Variant[];
 }
 
+/* ---------------- Products ---------------- */
 
-const products = [
-  { id:"1", name: "Mango Pickle", price: 299, image: heroMango, tag: "Bestseller" },
-  { id:"2", name: "Gongura Pickle", price: 349, image: heroGongura, tag: "Popular" },
-  { id:"3", name: "Garlic Pickle", price: 329, image: heroGarlic, tag: "Spicy" },
-  { id:"4", name: "Lemon Pickle", price: 279, image: productLemon, tag: "New" },
+const products: FeaturedProduct[] = [
+  {
+    id: "1",
+    name: "Mango Pickle",
+    image: heroMango,
+    tag: "Bestseller",
+    variants: [
+      { weight: "250g", price: 149 },
+      { weight: "500g", price: 299 },
+      { weight: "1kg", price: 549 },
+    ],
+  },
+  {
+    id: "2",
+    name: "Gongura Pickle",
+    image: heroGongura,
+    tag: "Popular",
+    variants: [
+      { weight: "250g", price: 169 },
+      { weight: "500g", price: 349 },
+      { weight: "1kg", price: 649 },
+    ],
+  },
+  {
+    id: "3",
+    name: "Garlic Pickle",
+    image: heroGarlic,
+    tag: "Spicy",
+    variants: [
+      { weight: "250g", price: 159 },
+      { weight: "500g", price: 329 },
+      { weight: "1kg", price: 599 },
+    ],
+  },
+  {
+    id: "4",
+    name: "Lemon Pickle",
+    image: productLemon,
+    tag: "New",
+    variants: [
+      { weight: "250g", price: 139 },
+      { weight: "500g", price: 279 },
+      { weight: "1kg", price: 499 },
+    ],
+  },
 ];
 
 const FeaturedProducts: React.FC = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const { addToCart } = useContext(CartContext);
+  const context = useContext(CartContext);
+  if (!context) return null;
+
+  const { addToCart } = context;
+
+  // Store selected weight index per product
+  const [selectedWeights, setSelectedWeights] = useState<{
+    [key: string]: number;
+  }>({});
 
   return (
-    <section className="py-24 bg-cream-gradient" ref={ref}>
+    <section className="py-8 bg-cream-gradient" ref={ref}>
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -49,54 +103,80 @@ const FeaturedProducts: React.FC = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.map((product, i) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="rounded-2xl overflow-hidden bg-card gold-border hover-lift group"
-            >
-              {/* Image */}
-              <div className="relative h-64 overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <span className="absolute top-4 left-4 bg-accent text-accent-foreground text-xs font-body font-semibold px-3 py-1 rounded-full">
-                  {product.tag}
-                </span>
-              </div>
+          {products.map((product, i) => {
+            const selectedIndex = selectedWeights[product.id] ?? 0;
+            const selectedVariant = product.variants[selectedIndex];
 
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="font-heading text-xl font-semibold text-foreground mb-1">
-                  {product.name}
-                </h3>
+            return (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                className="rounded-2xl overflow-hidden bg-card gold-border hover-lift group"
+              >
+                {/* Image */}
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <span className="absolute top-4 left-4 bg-accent text-accent-foreground text-xs font-body font-semibold px-3 py-1 rounded-full">
+                    {product.tag}
+                  </span>
+                </div>
 
-                <p className="text-accent font-heading text-xl font-bold mb-4">
-                  ₹{product.price}
-                </p>
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="font-body text-xl font-semibold text-foreground mb-3">
+                    {product.name}
+                  </h3>
 
-                <Button
-                  variant="hero"
-                  size="sm"
-                  className="w-full rounded-full"
-                  onClick={() =>
-                    addToCart({
-                      id: product.id,
-                      name: product.name,
-                      price: product.price,
-                      image: product.image,
-                    })
-                  }
-                >
-                  Add to Cart
-                </Button>
-              </div>
-            </motion.div>
-          ))}
+                  {/* Weight Selector */}
+                  <select
+                    className="w-full border rounded px-3 py-2 text-sm mb-3"
+                    value={selectedIndex}
+                    onChange={(e) =>
+                      setSelectedWeights({
+                        ...selectedWeights,
+                        [product.id]: Number(e.target.value),
+                      })
+                    }
+                  >
+                    {product.variants.map((variant, index) => (
+                      <option key={index} value={index}>
+                        {variant.weight} - ₹{variant.price}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* Dynamic Price */}
+                  <p className="text-accent font-body text-xl font-bold mb-4">
+                    ₹{selectedVariant.price}
+                  </p>
+
+                  {/* Add to Cart */}
+                  <Button
+                    variant="hero"
+                    size="sm"
+                    className="w-full rounded-full"
+                    onClick={() =>
+                      addToCart({
+                        id: product.id + "-" + selectedVariant.weight,
+                        name: product.name,
+                        price: selectedVariant.price,
+                        weight: selectedVariant.weight,
+                        image: product.image,
+                      })
+                    }
+                  >
+                    Add to Cart
+                  </Button>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* View All Button */}

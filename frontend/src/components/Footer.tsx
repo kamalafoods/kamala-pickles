@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="bg-royal-gradient text-primary-foreground">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-1">
             <h3 className="text-gold-gradient font-heading text-2xl font-bold mb-4">
@@ -47,7 +47,7 @@ const Footer = () => {
             <h4 className="font-heading text-lg mb-4 text-gold">Contact</h4>
             <div className="flex flex-col gap-2 text-primary-foreground/60 text-sm font-body">
               <span>hello@royalpickle.com</span>
-              <span>+91 98765 43210</span>
+              <span>+91 7251073544</span>
               <span>Hyderabad, Telangana</span>
             </div>
           </div>
@@ -55,7 +55,7 @@ const Footer = () => {
 
         <div className="section-divider mt-12 mb-6" />
         <p className="text-center text-primary-foreground/40 text-xs font-body">
-          © 2026 Royal Pickle. All rights reserved. Made with ❤️ in India.
+          © 2026 AV Group. All rights reserved.
         </p>
       </div>
     </footer>

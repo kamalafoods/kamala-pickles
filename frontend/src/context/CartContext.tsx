@@ -12,15 +12,15 @@ export interface CartItem {
   name: string;
   price: number;
   image: string;
+  weight: string; // ✅ ADDED
   quantity: number;
 }
 
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: Omit<CartItem, "quantity">) => void;
-  increaseQty: (id: string) => void;
-  decreaseQty: (id: string) => void;
-  removeItem: (id: string) => void;
+  increaseQty: (id: string, weight: string) => void;
+  decreaseQty: (id: string, weight: string) => void;
   getGrandTotal: () => number;
 }
 
@@ -41,7 +41,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({
 }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  /* -------- Load cart from localStorage -------- */
+  /* -------- Load from localStorage -------- */
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
@@ -49,7 +49,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({
     }
   }, []);
 
-  /* -------- Save cart to localStorage -------- */
+  /* -------- Save to localStorage -------- */
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
@@ -58,58 +58,53 @@ export const CartProvider: React.FC<CartProviderProps> = ({
   const addToCart = (product: Omit<CartItem, "quantity">) => {
     setCartItems((prev) => {
       const existingItem = prev.find(
-        (item) => item.id === product.id
+        (item) =>
+          item.id === product.id &&
+          item.weight === product.weight
       );
 
       if (existingItem) {
-        // Increase quantity if already exists
         return prev.map((item) =>
-          item.id === product.id
+          item.id === product.id &&
+          item.weight === product.weight
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
 
-      // Add new product
       return [...prev, { ...product, quantity: 1 }];
     });
   };
 
-  /* -------- Increase Quantity -------- */
-  const increaseQty = (id: string) => {
+  /* -------- Increase -------- */
+  const increaseQty = (id: string, weight: string) => {
     setCartItems((prev) =>
       prev.map((item) =>
-        item.id === id
+        item.id === id && item.weight === weight
           ? { ...item, quantity: item.quantity + 1 }
           : item
       )
     );
   };
 
-  /* -------- Decrease Quantity -------- */
-  const decreaseQty = (id: string) => {
+  /* -------- Decrease -------- */
+  const decreaseQty = (id: string, weight: string) => {
     setCartItems((prev) =>
       prev
         .map((item) =>
-          item.id === id
+          item.id === id && item.weight === weight
             ? { ...item, quantity: item.quantity - 1 }
             : item
         )
-        .filter((item) => item.quantity > 0) // remove if 0
+        .filter((item) => item.quantity > 0)
     );
   };
 
-  /* -------- Remove Item Completely -------- */
-  const removeItem = (id: string) => {
-    setCartItems((prev) =>
-      prev.filter((item) => item.id !== id)
-    );
-  };
-
-  /* -------- Grand Total -------- */
+  /* -------- Total -------- */
   const getGrandTotal = () => {
     return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total, item) =>
+        total + item.price * item.quantity,
       0
     );
   };
@@ -121,7 +116,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({
         addToCart,
         increaseQty,
         decreaseQty,
-        removeItem,
         getGrandTotal,
       }}
     >

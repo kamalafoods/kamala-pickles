@@ -52,7 +52,7 @@ const Navbar = () => {
             )}
 
             <span
-              className={`text-gold-gradient font-montserrat font-bold tracking-wide transition-all duration-300 mb-2 ${
+              className={`mt-2 text-gold-gradient font-montserrat font-bold tracking-wide transition-all duration-300 mb-2 ${
                 isScrolled ? "text-xl" : "text-2xl md:text-3xl"
               }`}
             >

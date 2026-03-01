@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "@/components/ScrollToTop"
 import Index from "./pages/Index";
 import Products from "./pages/Products";
-import Cart from "./pages/Cart";   // ✅ Create this
+import Cart from "./pages/Cart"; 
 import NotFound from "./pages/NotFound";
 
 import { CartProvider } from "@/context/CartContext";
