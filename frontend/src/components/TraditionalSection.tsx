@@ -32,14 +32,14 @@ const TraditionalSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="text-gold font-serif text-2xl italic tracking-wider">Heritage & Tradition</span>
-            <h2 className="font-heading text-4xl md:text-5xl font-bold text-gold-gradient mt-3 mb-6 leading-tight">
-              Crafted the <br />
-              <span className="text-gold-gradient">Traditional Way</span>
-            </h2>
+            <h2 className="font-heading text-4xl md:text-4xl font-bold text-black-gradient mt-3 mb-6">
+              Made the Way <br />
+              <span className="text-gold-gradient">Our Grandmothers Did</span>
+            </h2> 
+            
             <div className="section-divider !mx-0 mb-8" />
             <p className="text-black/80 font-body text-lg leading-relaxed mb-6">
-              Our pickles are handcrafted using age-old traditional methods. Sun-dried ingredients,
-              stone-ground spices, and slow blending techniques ensure authentic flavor in every jar.
+              From our kitchen to homes across Telangana and throughout India, Kamala Pickles delivers more than taste — it delivers legacy.
             </p>
             <p className="text-black/80 font-body leading-relaxed">
               Every batch is prepared with love by local artisans who have inherited recipes passed

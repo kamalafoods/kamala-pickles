@@ -19,7 +19,7 @@ const WhyChooseUs = () => {
         <div className="text-center mb-16">
           <span className="text-accent font-serif italic tracking-wider text-2xl">Our Promise</span>
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mt-3 mb-4">
-            Why Choose <span className="text-gold-gradient">Royal Pickle</span>
+            Why Choose <span className="text-gold-gradient">Kamala Pickle</span>
           </h2>
           <div className="section-divider mt-4" />
         </div>

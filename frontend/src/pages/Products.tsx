@@ -13,6 +13,8 @@ import heroGarlic from "@/assets/hero-garlic-pickle.jpg";
 import productLemon from "@/assets/product-lemon.jpg";
 import productChicken from "@/assets/product-chicken.jpg";
 import productPrawn from "@/assets/product-prawn.jpg";
+import productMutton from "@/assets/product-mutton.jpg";
+import productKakarakaya from "@/assets/product-kakarakaya.jpg";
 
 interface Variant {
   weight: string;
@@ -23,6 +25,7 @@ interface Product {
   id: string;
   name: string;
   image: string;
+  available: boolean;
   category: "veg" | "non-veg";
   desc: string;
   variants: Variant[];
@@ -34,6 +37,7 @@ const allProducts: Product[] = [
     name: "Mango Pickle",
     image: heroMango,
     category: "veg",
+    available: false,
     desc: "Authentic Andhra-style mango pickle crafted with handpicked spices and sun-dried perfection.",
     variants: [
       { weight: "250g", price: 149 },
@@ -46,6 +50,7 @@ const allProducts: Product[] = [
     name: "Gongura Pickle",
     image: heroGongura,
     category: "veg",
+    available: false,
     desc: "Tangy delight prepared with fresh gongura leaves and aromatic spices.",
     variants: [
       { weight: "250g", price: 169 },
@@ -58,6 +63,7 @@ const allProducts: Product[] = [
     name: "Garlic Pickle",
     image: heroGarlic,
     category: "veg",
+    available: false,
     desc: "Bold garlic flavor blended with traditional Andhra masala.",
     variants: [
       { weight: "250g", price: 159 },
@@ -70,6 +76,7 @@ const allProducts: Product[] = [
     name: "Lemon Pickle",
     image: productLemon,
     category: "veg",
+    available: false,
     desc: "Zesty lemon pickle bursting with citrusy goodness.",
     variants: [
       { weight: "250g", price: 139 },
@@ -82,6 +89,7 @@ const allProducts: Product[] = [
     name: "Chicken Pickle",
     image: productChicken,
     category: "non-veg",
+    available: true,
     desc: "Tender chicken pieces infused with bold spices.",
     variants: [
       { weight: "250g", price: 249 },
@@ -94,11 +102,38 @@ const allProducts: Product[] = [
     name: "Prawn Pickle",
     image: productPrawn,
     category: "non-veg",
+    available: false,
     desc: "Succulent prawns blended with rich traditional spices.",
     variants: [
       { weight: "250g", price: 279 },
       { weight: "500g", price: 499 },
       { weight: "1kg", price: 929 },
+    ],
+  },
+  {
+    id: "7",
+    name: "Mutton Pickle",
+    image: productMutton,
+    category: "non-veg",
+    available: true,
+    desc: "Succulent mutton pieces infused with rich traditional spices.",
+    variants: [
+      { weight: "250g", price: 249 },
+      { weight: "500g", price: 449 },
+      { weight: "1kg", price: 929 },
+    ],
+  },
+  {
+    id: "8",
+    name: "Kakarakaya Pickle",
+    image: productKakarakaya,
+    category: "veg",
+    available: true,
+    desc: "Succulent kakarakaya pieces blended with rich traditional spices.",
+    variants: [
+      { weight: "250g", price: 149 },
+      { weight: "500g", price: 249 },
+      { weight: "1kg", price: 449 },
     ],
   },
 ];
@@ -177,6 +212,13 @@ const Products: React.FC = () => {
                 className="rounded-2xl overflow-hidden bg-card gold-border hover-lift group"
               >
                 <div className="relative h-72 overflow-hidden">
+                  {!product.available && (
+                        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-10">
+                          <span className="text-white text-xl font-bold tracking-wide">
+                            Flavor in the Making..
+                          </span>
+                        </div>
+                      )}
                   <img
                     src={product.image}
                     alt={product.name}
@@ -193,7 +235,11 @@ const Products: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="p-6">
+                <div className={`p-6 ${
+                        !product.available
+                          ? "blur-sm pointer-events-none select-none"
+                          : ""
+                      }`}>
                   <h3 className="font-heading text-2xl font-semibold text-foreground mb-2">
                     {product.name}
                   </h3>

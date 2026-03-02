@@ -14,7 +14,7 @@ const context = useContext(CartContext);
   return null; // or loading state
 }
 
-const { cartItems, increaseQty, decreaseQty, getGrandTotal } = context;
+const { cartItems, increaseQty, decreaseQty, getGrandTotal, clearCart} = context;
 
 const cartCount = cartItems.reduce(
   (total, item) => total + item.quantity,
@@ -36,12 +36,54 @@ const cartCount = cartItems.reduce(
     return encodeURIComponent(message);
   };
 
-  const handleWhatsAppOrder = () => {
-    window.open(
-      `https://wa.me/${adminNumber}?text=${generateWhatsAppMessage()}`,
-      "_blank"
-    );
-  };
+        const handlePlaceOrder = async () => {
+          try {
+            const response = await fetch("http://localhost:5000/api/orders/create-order", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                items: cartItems,
+                totalAmount: getGrandTotal(),
+              }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+              const orderId = data.orderId;
+
+              // Clear Cart
+              context.clearCart();
+
+             const orderDate = new Date().toLocaleString();
+
+            let message = `Hello Kamala Pickle,\n\n`;
+            message += `My Order ID: ${orderId}\n`;
+
+            message += `Order Details:\n`;
+
+            cartItems.forEach((item, index) => {
+              message += `${index + 1}. ${item.name}\n`;
+              message += `   ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}\n`;
+            });
+
+            message += `\nTotal Amount: ₹${getGrandTotal()}\n\n`;
+            
+            message += `Please confirm my order.`;
+
+              const encodedMessage = encodeURIComponent(message);
+
+              window.open(
+                `https://wa.me/${adminNumber}?text=${encodedMessage}`,
+                "_blank"
+              );
+            }
+          } catch (error) {
+            console.error("Order failed", error);
+          }
+        };
 
   return (
     <>
@@ -126,7 +168,10 @@ const cartCount = cartItems.reduce(
             </Link>
 
             <Button
-              onClick={handleWhatsAppOrder}
+               onClick={() => {
+                console.log("Button Clicked");
+                handlePlaceOrder();
+              }}
               className="text-1xl bottom-6 right-6 bg-green-600 hover:bg-green-700 w-auto h-12 mt-2"
             >
               Place Order

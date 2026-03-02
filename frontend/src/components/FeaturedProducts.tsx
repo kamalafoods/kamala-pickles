@@ -8,6 +8,9 @@ import heroMango from "@/assets/hero-mango-pickle.jpg";
 import heroGongura from "@/assets/hero-gongura-pickle.jpg";
 import heroGarlic from "@/assets/hero-garlic-pickle.jpg";
 import productLemon from "@/assets/product-lemon.jpg";
+import productChicken from "@/assets/product-chicken.jpg"
+import productMutton from "@/assets/product-mutton.jpg"
+import productKakarakaya from "@/assets/product-kakarakaya.jpg"
 
 /* ---------------- Types ---------------- */
 
@@ -21,6 +24,7 @@ interface FeaturedProduct {
   name: string;
   image: string;
   tag: string;
+  available: boolean;
   variants: Variant[];
 }
 
@@ -29,48 +33,54 @@ interface FeaturedProduct {
 const products: FeaturedProduct[] = [
   {
     id: "1",
-    name: "Mango Pickle",
-    image: heroMango,
-    tag: "Bestseller",
+    name: "Chicken Pickle",
+    image: productChicken,
+    tag:"Popular",
+    available: true,
     variants: [
-      { weight: "250g", price: 149 },
-      { weight: "500g", price: 299 },
-      { weight: "1kg", price: 549 },
+      { weight: "250g", price: 249 },
+      { weight: "500g", price: 449 },
+      { weight: "1kg", price: 849 },
     ],
-  },
+  }, 
   {
-    id: "2",
-    name: "Gongura Pickle",
-    image: heroGongura,
-    tag: "Popular",
+  id: "2",
+    name: "Mutton Pickle",
+    image: productMutton,
+    tag: "Tasty",
+    available: true,
     variants: [
-      { weight: "250g", price: 169 },
-      { weight: "500g", price: 349 },
-      { weight: "1kg", price: 649 },
+      { weight: "250g", price: 249 },
+      { weight: "500g", price: 449 },
+      { weight: "1kg", price: 929 },
     ],
   },
+
   {
     id: "3",
-    name: "Garlic Pickle",
-    image: heroGarlic,
-    tag: "Spicy",
+    name: "Kakarakaya Pickle",
+    image: productKakarakaya,
+    tag:"Spicy",
+    available: true,
     variants: [
-      { weight: "250g", price: 159 },
-      { weight: "500g", price: 329 },
-      { weight: "1kg", price: 599 },
+      { weight: "250g", price: 149 },
+      { weight: "500g", price: 249 },
+      { weight: "1kg", price: 449 },
     ],
-  },
+  }, 
   {
-    id: "4",
-    name: "Lemon Pickle",
-    image: productLemon,
-    tag: "New",
-    variants: [
-      { weight: "250g", price: 139 },
-      { weight: "500g", price: 279 },
-      { weight: "1kg", price: 499 },
-    ],
-  },
+  id: "4",
+  name: "Lemon Pickle",
+  image: productLemon,
+  tag: "New",
+  available: false, 
+  variants: [
+    { weight: "250g", price: 149 },
+    { weight: "500g", price: 249 },
+    { weight: "1kg", price: 499 },
+  ],
+},
+  
 ];
 
 const FeaturedProducts: React.FC = () => {
@@ -109,12 +119,24 @@ const FeaturedProducts: React.FC = () => {
 
             return (
               <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                className="rounded-2xl overflow-hidden bg-card gold-border hover-lift group"
-              >
+              key={product.id}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.12 }}
+              className="relative rounded-2xl overflow-hidden bg-card gold-border hover-lift group"
+            >
+              {/* Blur Overlay */}
+              {!product.available && (
+                <div className="absolute inset-0 z-20 bg-black/40 backdrop-blur-md flex items-center justify-center">
+                  <span className="text-white text-2xl text-center font-bold tracking-wider">
+                    Flavor in the Making..🔜
+                  </span>
+                </div>
+              )}
+
+              {/* Entire Content Wrapper */}
+              <div className={`${!product.available ? "blur-sm pointer-events-none select-none" : ""}`}>
+                
                 {/* Image */}
                 <div className="relative h-64 overflow-hidden">
                   <img
@@ -135,6 +157,7 @@ const FeaturedProducts: React.FC = () => {
 
                   {/* Weight Selector */}
                   <select
+                    disabled={!product.available}
                     className="w-full border rounded px-3 py-2 text-sm mb-3"
                     value={selectedIndex}
                     onChange={(e) =>
@@ -151,7 +174,7 @@ const FeaturedProducts: React.FC = () => {
                     ))}
                   </select>
 
-                  {/* Dynamic Price */}
+                  {/* Price */}
                   <p className="text-accent font-body text-xl font-bold mb-4">
                     ₹{selectedVariant.price}
                   </p>
@@ -160,6 +183,7 @@ const FeaturedProducts: React.FC = () => {
                   <Button
                     variant="hero"
                     size="sm"
+                    disabled={!product.available}
                     className="w-full rounded-full"
                     onClick={() =>
                       addToCart({
@@ -174,7 +198,8 @@ const FeaturedProducts: React.FC = () => {
                     Add to Cart
                   </Button>
                 </div>
-              </motion.div>
+              </div>
+            </motion.div>
             );
           })}
         </div>

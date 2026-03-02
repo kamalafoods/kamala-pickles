@@ -21,6 +21,7 @@ interface CartContextType {
   addToCart: (product: Omit<CartItem, "quantity">) => void;
   increaseQty: (id: string, weight: string) => void;
   decreaseQty: (id: string, weight: string) => void;
+  clearCart: () => void;
   getGrandTotal: () => number;
 }
 
@@ -100,6 +101,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({
     );
   };
 
+  /* -------- Clear Cart -------- */
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
   /* -------- Total -------- */
   const getGrandTotal = () => {
     return cartItems.reduce(
@@ -116,6 +122,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({
         addToCart,
         increaseQty,
         decreaseQty,
+        clearCart,
         getGrandTotal,
       }}
     >

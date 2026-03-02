@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart"; 
 import NotFound from "./pages/NotFound";
+import AdminOrders from "./pages/AdminOrders";
 
 import { CartProvider } from "@/context/CartContext";
 
@@ -24,7 +25,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/cart" element={<Cart />} /> {/* ✅ New */}
+            <Route path="/adminefabhi" element={<AdminOrders />} />
+            <Route path="/cart" element={<Cart />} /> 
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
