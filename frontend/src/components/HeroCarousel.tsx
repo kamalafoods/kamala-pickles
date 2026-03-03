@@ -13,19 +13,19 @@ const slides = [
     image: heroMango,
     name: "Mango Pickle",
     tagline: "Authentic Telangana-style mango pickle crafted with handpicked spices and sun-dried perfection.",
-    price: "₹299 / 500g",
+    // price: "₹299 / 500g",
   },
   {
     image: heroGongura,
     name: "Gongura Pickle",
     tagline: "A tangy, spicy delight made from fresh sorrel leaves and traditional stone-ground masalas.",
-    price: "₹349 / 500g",
+    // price: "₹349 / 500g",
   },
   {
     image: heroGarlic,
     name: "Garlic Pickle",
     tagline: "Bold, aromatic garlic cloves infused with premium cold-pressed oil and spices.",
-    price: "₹329 / 500g",
+    // price: "₹329 / 500g",
   },
 ];
 

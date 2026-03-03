@@ -41,9 +41,9 @@ const allProducts: Product[] = [
     available: true,
     desc: "Tender chicken pieces infused with bold spices.",
     variants: [
-      { weight: "250g", price: 249 },
-      { weight: "500g", price: 449 },
-      { weight: "1kg", price: 849 },
+      { weight: "250g", price: 349 },
+      { weight: "500g", price: 679 },
+      { weight: "1kg", price: 1149 },
     ],
   },
 
@@ -55,9 +55,9 @@ const allProducts: Product[] = [
     available: true,
     desc: "Succulent kakarakaya pieces blended with rich traditional spices.",
     variants: [
-      { weight: "250g", price: 149 },
-      { weight: "500g", price: 249 },
-      { weight: "1kg", price: 449 },
+      { weight: "250g", price: 199 },
+      { weight: "500g", price: 349 },
+      { weight: "1kg", price: 589 },
     ],
   },
   {
@@ -68,9 +68,9 @@ const allProducts: Product[] = [
     available: true,
     desc: "Succulent mutton pieces infused with rich traditional spices.",
     variants: [
-      { weight: "250g", price: 249 },
-      { weight: "500g", price: 449 },
-      { weight: "1kg", price: 929 },
+      { weight: "250g", price: 529 },
+      { weight: "500g", price: 979 },
+      { weight: "1kg", price: 1979 },
     ],
   },
 
