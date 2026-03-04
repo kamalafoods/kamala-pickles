@@ -19,7 +19,7 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/orders/all")
+    fetch(`${import.meta.env.VITE_API_URL}/api/orders/all`)
       .then(res => res.json())
       .then(data => setOrders(data))
       .catch(err => console.log("Error fetching orders:", err));
