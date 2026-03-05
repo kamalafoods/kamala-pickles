@@ -51,7 +51,7 @@ const allProducts: Product[] = [
 
   {
     id: "2",
-    name: "Kakarakaya Pickle",
+    name: "Karela Pickle",
     image: productKakarakaya,
     category: "veg",
     available: true,
