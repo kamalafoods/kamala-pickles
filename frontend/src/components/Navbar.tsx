@@ -20,6 +20,11 @@ const Navbar = () => {
     useState(false);
   const location = useLocation();
 
+  // show cart icon on mobile when featured products section is visible or we're on products page
+  const showMobileCart =
+    isFeaturedProductsVisible || location.pathname === "/products";
+
+
   const context = useContext(CartContext);
   const cartCount = context
     ? context.cartItems.reduce((total, item) => total + item.quantity, 0)
@@ -112,7 +117,7 @@ const Navbar = () => {
         {/* Mobile Toggle */}
         <div className="md:hidden flex items-center gap-3">
           <AnimatePresence>
-            {isFeaturedProductsVisible && (
+            {showMobileCart && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
