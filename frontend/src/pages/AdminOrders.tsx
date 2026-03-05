@@ -21,8 +21,19 @@ const AdminOrders = () => {
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/orders/all`)
       .then((res) => res.json())
-      .then((data) => setOrders(data))
-      .catch((err) => console.log("Error fetching orders:", err));
+      .then((data) => {
+        console.log("API Response:", data); // Debug log
+        if (data && data.orders && Array.isArray(data.orders)) {
+          setOrders(data.orders);
+        } else {
+          console.error("Expected orders array but got:", data);
+          setOrders([]);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching orders:", err);
+        setOrders([]);
+      });
   }, []);
 
   return (
@@ -31,63 +42,70 @@ const AdminOrders = () => {
 
       {orders.length === 0 && <p>No orders found.</p>}
 
-      {Object.entries(
-        orders.reduce((groups: Record<string, Order[]>, order) => {
-          const date = new Date(order.createdAt).toLocaleDateString();
+      {Array.isArray(orders) &&
+        Object.entries(
+          orders.reduce((groups: Record<string, Order[]>, order) => {
+            const date = new Date(order.createdAt).toLocaleDateString();
 
-          if (!groups[date]) {
-            groups[date] = [];
-          }
+            if (!groups[date]) {
+              groups[date] = [];
+            }
 
-          groups[date].push(order);
-          return groups;
-        }, {}),
-      ).map(([date, dailyOrders]) => (
-        <div key={date} style={{ marginBottom: 40, fontFamily: "Montserrat" }}>
-          <h2 style={{ marginBottom: 10, fontSize: 24 }}>
-            📅 {date} ({(dailyOrders as Order[]).length} Orders)
-          </h2>
+            groups[date].push(order);
+            return groups;
+          }, {}),
+        ).map(([date, dailyOrders]) => (
+          <div
+            key={date}
+            style={{ marginBottom: 40, fontFamily: "Montserrat" }}
+          >
+            <h2 style={{ marginBottom: 10, fontSize: 24 }}>
+              📅 {date} ({(dailyOrders as Order[]).length} Orders)
+            </h2>
 
-          {(dailyOrders as Order[]).map((order) => (
-            <div
-              key={order._id}
-              style={{
-                border: "1px solid #ddd",
-                borderRadius: 8,
-                padding: 20,
-                marginBottom: 15,
-                backgroundColor: "#f9f9f9",
-              }}
-            >
-              <h3>Order ID: {order.orderId}</h3>
+            {(dailyOrders as Order[]).map((order) => (
+              <div
+                key={order._id}
+                style={{
+                  border: "1px solid #ddd",
+                  borderRadius: 8,
+                  padding: 20,
+                  marginBottom: 15,
+                  backgroundColor: "#f9f9f9",
+                }}
+              >
+                <h3>Order ID: {order.orderId}</h3>
 
-              <p>
-                <strong>Time:</strong>{" "}
-                {new Date(order.createdAt).toLocaleTimeString()}
-              </p>
+                <p>
+                  <strong>Time:</strong>{" "}
+                  {new Date(order.createdAt).toLocaleTimeString()}
+                </p>
 
-              <p>
-                <strong>Total Products:</strong>{" "}
-                {order.items.reduce((total, item) => total + item.quantity, 0)}
-              </p>
-              <h4>Items: </h4>
-              <ul>
-                {order.items.map((item, index) => (
-                  <div key={index} style={{ marginLeft: 20 }}>
-                    <p>
-                      <strong>{item.name}</strong> - {item.quantity} x ₹
-                      {item.price} = ₹{item.price * item.quantity}
-                    </p>
-                  </div>
-                ))}
-              </ul>
-              <p>
-                <strong>Total Amount:</strong> ₹{order.totalAmount}
-              </p>
-            </div>
-          ))}
-        </div>
-      ))}
+                <p>
+                  <strong>Total Products:</strong>{" "}
+                  {order.items.reduce(
+                    (total, item) => total + item.quantity,
+                    0,
+                  )}
+                </p>
+                <h4>Items: </h4>
+                <ul>
+                  {order.items.map((item, index) => (
+                    <div key={index} style={{ marginLeft: 20 }}>
+                      <p>
+                        <strong>{item.name}</strong> - {item.quantity} x ₹
+                        {item.price} = ₹{item.price * item.quantity}
+                      </p>
+                    </div>
+                  ))}
+                </ul>
+                <p>
+                  <strong>Total Amount:</strong> ₹{order.totalAmount}
+                </p>
+              </div>
+            ))}
+          </div>
+        ))}
     </div>
   );
 };
