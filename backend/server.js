@@ -10,7 +10,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
+    origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [
       "http://localhost:8080",
       "http://localhost:5173",
       "https://kamala-pickles.vercel.app",
