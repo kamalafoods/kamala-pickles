@@ -28,7 +28,7 @@ const cartCount = cartItems.reduce(
   0
 );
 
-  const adminNumber = "917251073544";
+  const adminNumber = "918019623111";
 
   const generateWhatsAppMessage = () => {
     let message = `Hello Kamala Pickle,\n\n`;
